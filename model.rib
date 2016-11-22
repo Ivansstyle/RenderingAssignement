@@ -1,5 +1,5 @@
 #hyperboloid.rib
-Display "model.tiff" "tiff" "rgba"
+Display "model.tiff" "framebuffer" "rgba"
 Projection "perspective" "fov" [40]
 
 

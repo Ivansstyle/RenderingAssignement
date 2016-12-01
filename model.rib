@@ -1,21 +1,169 @@
 #hyperboloid.rib
-Display "model.tiff" "tiff" "rgba"
+Display "model.tiff" "framebuffer" "rgba"
 Projection "perspective" "fov" [40]
 
+# PixelFilter "mitchell" 4 4
+Format 640 360 1.0
 
 
+Hider "raytrace" "int incremental" [1] "int maxsamples" [256]
+PixelVariance 0.01
+Integrator "PxrDefault" "integrator"
+Integrator "PxrVCM" "integrator"
+Integrator "PxrDirectlighting" "integrator"
+Integrator "PxrPathTracer" "integrator"
+
+
+#  Clipping 5 15
+#  Exposure 1 1
+    
+Translate 0 0 10
+Rotate -7 1 0 0 
 WorldBegin
 
+# LIGHTS 
 
-	Translate 0 0 6
-  Rotate -90 1 0 0  
-  
+AttributeBegin
+	# LightSource "pointlight" "theLight" "from" [ -2 2 -2 ] "intensity" [ 7 ]
+	 AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [7]
+	 Translate -2 2 -2
+	 Sphere 0.4 -0.4 0.4 360
+AttributeEnd
+
+AttributeBegin
+	# LightSource "pointlight" "theLight2" "from" [ 3.3 3 2 ] "intensity" [ 7 ]
+	 AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [7]
+	 Translate 3.3 3 2
+	 Sphere 0.4 -0.4 0.4 360
+AttributeEnd
+
+     AttributeBegin
+	# LightSource "pointlight" "theLight2" "from" [ 3.3 3 2 ] "intensity" [ 7 ]
+	 AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [7]
+	 Translate -4 3 6
+	 Sphere 0.4 -0.4 0.4 360
+AttributeEnd
+
+     
+# MATERIAL 
+
+AttributeBegin # SHADER ATTRIBUTe BEGIN
+
+	Attribute "trace" "displacements" [ 1 ]
+	Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
+	Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
+	Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
+
+	Bxdf "PxrGlass" "BodyMaterial" "color reflectionColor" [ 0.9 0.5 0.6 ] 
+    # "float ior"                 [1.2] 
+    "float roughness"           [2] 
+    "float reflectionGain"      [1.2] 
+    # "color transmissionColor"   [1.2 1.112 1.1] 
+
+
+
+
+
+# -----------------Leg--------------------
+
+
+# BODY COLOR BEGIN
+AttributeBegin
+Color [1 0.5 0.6] 
+Opacity [0.8 0.8 0.8]
+TransformBegin 
+    Translate 0 -2 0
+    
+    Rotate 90  1 0 0
+    Cylinder 0.28 0.2 -1 360
+    Hyperboloid 1 1 0.5 0.2 -0.2 -0.2 360
+TransformEnd
+
+# -----------------Body--------------------
 TransformBegin
-
-Translate 0 0 -4
-Cone 5 2 360
+    # Bottom part
+    Translate 0 -0.7 0
+    Scale 1 0.8 1  # SQUASH SPHERE 
+    Scale 1 1 1 # SIZE
+    Rotate 90 1 0 0 
+    Sphere 1 -1 0.7 360
+   
 
 TransformEnd
+
+# MEDIUM part
+TransformBegin
+    
+    Rotate 90 1 0 0
+    Hyperboloid 0.5 1 0.5 0.2 -0.2 -1 360
+
+TransformEnd
+
+# Top part
+TransformBegin
+    
+    Translate 0 0.9 0 
+    Scale 1.2 1.2 1.2 
+     Sphere 1 -1 1 360
+
+TransformEnd
+# BODY COLOR END
+AttributeEnd 
+
+
+AttributeEnd # SHADER ATTRIBUTe END
+# -------------------face---------------------
+
+
+# ========= FLOOR =============
+
+
+
+
+AttributeBegin
+
+
+# Material "plastic"
+
+Bxdf "PxrDisney" "FloorColor" "color baseColor" [ 1 1 1 ] "float metallic" [0] "float specular" [0]
+Sphere 10 10 -10 360
+Bxdf "PxrDisney" "FloorColor" "color baseColor" [ 0.1 0.1 0.1 ] "float metallic" [0] "float specular" [0.2]
+TransformBegin 
+
+    Translate 0 -2.5 0
+    Scale 4 4 4
+    Polygon "P" [
+                -1  0   -1
+                1   0   -1  
+                1   0   1
+                -1  0   1
+                ]   
+TransformEnd 
+
+## -- Backdrop -- ##
+
+# TransformBegin
+# Translate 0 0 4
+# Scale 4 4 0
+#     Polygon "P" [
+#                 -1  -1  0 
+#                 1   -1  0
+#                 1   1   0
+#                 -1  1   0
+#     ]
+
+# TransformEnd
+
+AttributeEnd
+
+
+
+# TransformBegin
+
+# Translate 0 1 -2
+# Sphere 0.8 -0.78 -0.8 360
+
+# TransformEnd
 
   #   TransformBegin
   #   Rotate 90 1 0 0
@@ -25,4 +173,5 @@ TransformEnd
   # TransformEnd
 
 WorldEnd
+
 

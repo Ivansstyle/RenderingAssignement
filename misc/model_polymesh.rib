@@ -1,0 +1,307 @@
+
+TransformBegin
+# Translate 0 1 0
+Scale 0.3 0.3 0.3
+
+TransformBegin
+Color [0.1 0.1 0.1]
+    
+    TransformBegin
+       Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.9] "color baseColor" [ 0.02 0.02 0.02 ] 
+        "float roughness"      [0.3] 
+        "float anisotropic"    [0.2]
+    Rotate 90 1 0 0 
+    Cylinder 2.9 0 7.2 180
+
+
+    # REF: OUTER CYL R = 2.9 H = 7.2 SWEEP = 140
+ 
+# #  DISPLACEMENT EXAMPLE 
+# 	Attribute "trace" "displacements" [ 2 ]
+# 	Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
+# 	Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
+# 	Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
+
+
+
+        TransformBegin
+        AttributeBegin
+        Bxdf "PxrDisney" "BodyMaterial" "float metallic" [1] "color baseColor" [ 1 1 1 ] 
+        Pattern 
+            Color [1 1 1]
+                #  METALLIC LIP
+            TransformBegin
+                Scale 1 1 0.5
+                Translate 0 0 -0.09
+                Torus 2.1 0.25 360 0 360
+            TransformEnd
+            
+            Translate 0 0 -4.6
+            # Disk 0 1.8 360
+            Hyperboloid -1.8 0 0 -0.65 0 0 360
+            
+            
+        
+            # Outer top cylinder 
+            Cylinder 1.8 0 4.6 360
+            
+            # Inner top cylinder 
+            Cylinder 0.65 0 4.6 360
+            # Torus 1.9 0.1 360 0 360
+     
+           Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.9] "color baseColor" [ 0.02 0.02 0.02 ] 
+        "float roughness"      [0.3] 
+        "float anisotropic"    [0.2]
+        
+         # Top Disk! 
+        Disk 4.6 2.9 360    
+        AttributeEnd
+        # AttributeBegin
+
+
+
+
+
+
+
+
+
+
+# POLYMESH 
+
+    PointsPolygon []
+    "P"
+    [
+        2.9 0 0         
+        1.55 0 -3.2
+        1.55 -0.0001 -3.2       
+        -1.55 -7.2 -3.2
+        -1.55 -0.0001 -3.2  
+        -2.9 0 0 
+
+
+        
+    ]
+      
+  #     # Middle - top part 
+    #     TransformBegin
+
+    #     Polygon "P" [
+    #         2.9 0 0
+    #         1.55 0 -3.2
+    #         -1.55 0 -3.2
+    #         -2.9 0 0 
+
+    #     ]
+    #     TransformEnd
+        
+    #     # Middle - central part 
+
+    #     TransformBegin
+
+    #     Polygon "P" [
+    #         1.55 -0.0001 -3.2
+    #         1.55 -7.2 -3.2
+    #         -1.55 -7.2 -3.2
+    #         -1.55 -0.0001 -3.2             
+    #     ]
+
+    #     TransformEnd
+       
+
+    #     # Inside right top triangle
+
+    #     TransformBegin
+        
+    #     Translate 2.9 0 0
+    #     Polygon "P" [
+    #         -1.35  -0.0001 -3.2
+    #         1 -7.2 -15.5
+    #         -1.35 -7.2 -3.2
+    #     ]
+
+    #     TransformEnd
+
+    #      # Inside left top triangle
+
+    #     TransformBegin
+        
+    #     Translate -2.9 0 0
+    #     Polygon "P" [
+    #         1.35  -0.0001 -3.2
+    #         -1 -7.2 -15.5
+    #         1.35 -7.2 -3.2
+    #     ]
+
+    #     TransformEnd
+
+
+    #     #  Side panel R outer 
+    #     TransformBegin
+
+    #     Translate 2.9 0 0
+    #     Polygon "P" [
+    #         0 0 0
+    #         0.65 0 -2.8
+    #         3 -7.2 -15
+    #         0.65 -7.2 -2.8
+    #         0 -7.2 0      
+    #     ]
+        
+    #     TransformEnd
+       
+    #     # Side panel R top 
+    #     TransformBegin
+    #     Translate 2.9 0 0 
+    #    Polygon "P" [
+    #         0 -0.0001 0 
+    #         0.65 -0.0001 -2.8
+    #         -1.35  -0.0001 -3.2
+    #         -1 -0.0001 0
+    #    ]
+
+    #     Polygon "P" [
+    #         # 0 -0.0001 0 
+    #         0.65 -0.0001 -2.8 
+    #         3 -7.2 -15 
+    #         1 -7.2 -15.5
+    #          -1.35  -0.0001 -3.2
+    #         # -1 -0.00001 0            
+    #     ]
+    #     TransformEnd
+
+    #     TransformBegin
+    #     # Side panel R front block 
+    #     Translate 2.9 0 0
+    #     Polygon "P" [
+
+    #          3 -7.2 -15
+    #          1 -7.2 -15.5
+    #          1 -10.8 -14
+    #          3 -10.8 -14.2
+    #     ]
+    #     TransformEnd
+
+    #     #  Side panel L outer 
+    #     TransformBegin
+
+    #     Translate -2.9 0 0
+    #     Polygon "P" [
+    #         0 0 0
+    #         -0.65 0 -2.8
+    #         -3 -7.2 -15
+    #         -0.65 -7.2 -2.8
+    #         0 -7.2 0   
+    #     ]
+        
+    #     TransformEnd
+    
+    #     # Side panel L top 
+    #     TransformBegin
+    #     Translate -2.9 0 0 
+    #    Polygon "P" [
+    #         0 -0.0001 0 
+    #         -0.65 -0.0001 -2.8
+    #         1.35  -0.0001 -3.2
+    #         1 -0.0001 0
+    #    ]
+
+    #     Polygon "P" [
+    #         # 0 -0.0001 0 
+    #         -0.65 -0.0001 -2.8 
+    #         -3 -7.2 -15 
+    #         -1 -7.2 -15.5
+    #          1.35  -0.0001 -3.2
+    #         # -1 -0.00001 0            
+    #     ]
+    #     TransformEnd
+    #      # Side panel L front block 
+    #     Translate -2.9 0 0
+    #     Polygon "P" [
+
+    #          -3 -7.2 -15
+    #          -1 -7.2 -15.5
+    #          -1 -10.8 -14
+    #          -3 -10.8 -14.2
+    #     ]
+    #     TransformEnd
+
+       
+        
+        
+        
+        TransformEnd
+      
+    
+    TransformEnd
+    # BODY MATERIAL
+
+    # --------------------- MIDDLE ------------------------
+        
+     
+
+        TransformEnd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # -------------- LEFT ----------------------
+
+        #  Side panel L outer 
+        TransformBegin
+
+        Translate -2.9 0 0
+        Polygon "P" [
+            0 0 0
+            -0.65 0 -2.8
+            -3 -7.2 -15
+            -0.65 -7.2 -2.8
+            0 -7.2 0   
+        ]
+        
+        TransformEnd
+    
+        # Side panel L top 
+        TransformBegin
+        Translate -2.9 0 0 
+       Patch "bilinear" "P" [
+           
+            -0.65 -0.0001 -2.8
+             0 -0.0001 0 
+            1.35  -0.0001 -3.2
+            1 -0.0001 0
+       ]
+
+        Patch "bilinear" "P" [
+            # 0 -0.0001 0             
+            -3 -7.2 -15 
+            -0.65 -0.0001 -2.8 
+            -1 -7.2 -15.5
+             1.35  -0.0001 -3.2
+            # -1 -0.00001 0            
+        ]
+        TransformEnd
+         # Side panel L front block 
+        Translate -2.9 0 0
+        Patch "bilinear" "P" [ 
+             -1 -7.2 -15.5
+             -3 -7.2 -15
+             -1 -10.8 -14.5
+             -3 -10.8 -14
+        ]
+        TransformEnd
+
+#  AttributeEnd
+TransformEnd
+
+TransformEnd

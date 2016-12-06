@@ -40,48 +40,48 @@ temp	float	$tmp14	%read{25,25} %write{22,22}
 temp	float	$tmp15	%read{24,24} %write{23,23}
 temp	float	$tmp16	%read{25,25} %write{24,24}
 code ___main___
-# randomDisk.osl:5
+# scratches.osl:5
 #     float fuzz=0.05;
-	assign		fuzz $const1 	%filename{"randomDisk.osl"} %line{5} %argrw{"wr"}
-# randomDisk.osl:6
+	assign		fuzz $const1 	%filename{"scratches.osl"} %line{5} %argrw{"wr"}
+# scratches.osl:6
 #     float repeatCount=5;
 	assign		repeatCount $const2 	%line{6} %argrw{"wr"}
-# randomDisk.osl:7
+# scratches.osl:7
 #     float s=mod(repeatCount*u,1);
 	mul		$tmp1 repeatCount u 	%line{7} %argrw{"wrr"}
 	functioncall	$const5 8 	%argrw{"r"}
-# /Applications/Pixar/RenderManProServer-20.11/lib/osl/include/stdosl.h:135
+# /opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h:135
 # vector mod (vector a, vector b) { return a - b*floor(a/b); }
-	div		$tmp3 $tmp1 $const4 	%filename{"/Applications/Pixar/RenderManProServer-20.11/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	div		$tmp3 $tmp1 $const4 	%filename{"/opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
 	floor		$tmp2 $tmp3 	%argrw{"wr"}
 	mul		$tmp4 $const4 $tmp2 	%argrw{"wrr"}
 	sub		s $tmp1 $tmp4 	%argrw{"wrr"}
-# randomDisk.osl:8
+# scratches.osl:8
 #     float t=mod(repeatCount*v,1);
-	mul		$tmp5 repeatCount v 	%filename{"randomDisk.osl"} %line{8} %argrw{"wrr"}
+	mul		$tmp5 repeatCount v 	%filename{"scratches.osl"} %line{8} %argrw{"wrr"}
 	functioncall	$const5 14 	%argrw{"r"}
-# /Applications/Pixar/RenderManProServer-20.11/lib/osl/include/stdosl.h:135
+# /opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h:135
 # point  mod (point  a, point  b) { return a - b*floor(a/b); }
-	div		$tmp7 $tmp5 $const4 	%filename{"/Applications/Pixar/RenderManProServer-20.11/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	div		$tmp7 $tmp5 $const4 	%filename{"/opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
 	floor		$tmp6 $tmp7 	%argrw{"wr"}
 	mul		$tmp8 $const4 $tmp6 	%argrw{"wrr"}
 	sub		t $tmp5 $tmp8 	%argrw{"wrr"}
-# randomDisk.osl:9
+# scratches.osl:9
 #     point centre=point (0.5,0.5,0);
-	assign		centre $const6 	%filename{"randomDisk.osl"} %line{9} %argrw{"wr"}
-# randomDisk.osl:10
+	assign		centre $const6 	%filename{"scratches.osl"} %line{9} %argrw{"wr"}
+# scratches.osl:10
 #     point here=point (s,t,0);
 	point		here s t $const8 	%line{10} %argrw{"wrrr"}
-# randomDisk.osl:11
+# scratches.osl:11
 #     float dist=distance(centre,here);
 	distance	dist centre here 	%line{11} %argrw{"wrr"}
-# randomDisk.osl:12
-#     float radius=(float) noise("cell",repeatCount*u,repeatCount*v)*0.4;
+# scratches.osl:12
+#     float radius=(float)noise("cell",repeatCount*u,repeatCount*v)*0.4;
 	mul		$tmp10 repeatCount u 	%line{12} %argrw{"wrr"}
 	mul		$tmp11 repeatCount v 	%argrw{"wrr"}
 	noise		$tmp9 $const9 $tmp10 $tmp11 	%argrw{"wrrr"}
 	mul		radius $tmp9 $const10 	%argrw{"wrr"}
-# randomDisk.osl:13
+# scratches.osl:13
 #     float inDisk=0.5-smoothstep(radius-fuzz/2,radius/2+fuzz,dist);
 	div		$tmp13 fuzz $const13 	%line{13} %argrw{"wrr"}
 	sub		$tmp14 radius $tmp13 	%argrw{"wrr"}
@@ -89,7 +89,7 @@ code ___main___
 	add		$tmp16 $tmp15 fuzz 	%argrw{"wrr"}
 	smoothstep	$tmp12 $tmp14 $tmp16 dist 	%argrw{"wrrr"}
 	sub		inDisk $const11 $tmp12 	%argrw{"wrr"}
-# randomDisk.osl:14
+# scratches.osl:14
 #     resultF=inDisk;
 	assign		resultF inDisk 	%line{14} %argrw{"wr"}
 	end

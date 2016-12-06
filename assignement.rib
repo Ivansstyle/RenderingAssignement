@@ -1,64 +1,96 @@
-#hyperboloid.rib
-Display "model.exr" "framebuffer" "rgba"
+#assignement.rib
+Display "assignement.exr" "framebuffer" "rgba"
 Projection "perspective" "fov" [45]
 
+# ------------ CAMERA -----------------
 # PixelFilter "mitchell" 4 4
 Format 1280 720 1.0
 Quantize "rgba" 255 0 255 0
+Exposure 1 2.2
+# DepthOfField 12.0 0.8 8
 
-
+# ------------ RENDERER ---------------
 Hider "raytrace" "int incremental" [1] "int maxsamples" [512]
 PixelVariance 0.01
-# Filter "gaussian" 4 4 
-#  Integrator "PxrDefault" "integrator"
+
+# ----------- INTEGRATORS -------------  
+  # Filter "gaussian" 4 4 
+  #  Integrator "PxrDefault" "integrator"
   Integrator "PxrVCM" "integrator"
   Integrator "PxrPathTracer" "integrator"
 
 
 #  Clipping 5 15
- Exposure 1 2.2
+ 
     
-    Translate 0 1 12
-     Rotate -20 1 0 0
-     Rotate 70 0 1 0  
+# ----------- CAMERA POS --------------
 
+  # #  # Detailed view
+  #   Translate -1 5 4
+  #    Rotate -45 1 0 0
+  #    Rotate -10 0 1 0  
+
+# Detailed VIEW 2
+
+    #  Translate 2 3 4 
+    #  Rotate -15 1 0 0
+    #  Rotate  180 0 1 0  
+
+# General view
+     Translate 0 1 12 
+     Rotate -10 1 0 0
+     Rotate -30 0 1 0  
 
 
 WorldBegin
 
 # LIGHTS 
- TransformBegin
+TransformBegin # SCENE
  
-   AttributeBegin 
-        TransformBegin
- 	    
- 	    AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [9]
- 	     Translate -6 5 -7
- 	     Sphere 0.5 -0.5 0.5 360
-         TransformEnd
-    AttributeEnd
+    AttributeBegin # ENV LIGHT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+      Rotate 90 1 0 0 
+		  Pattern "PxrTexture" "envTexture" "string filename" "envmap.tx"
+		  AreaLightSource "PxrStdAreaLight" "envLight" "float exposure" [0.8]
+				"float enableEmissionMap" [1]
+				"string rman__EmissionMap" ["envmap.tx"]
+				"float linearizeEmissionMap" [1]
+		
+	
+		  Bxdf "PxrDisney" "fortheEnvSphere" "reference color baseColor" ["envTexture:resultRGB"]
+		  Geometry "envsphere" "constant float radius" [100]
+	  AttributeEnd # END LIGHT
+ 
 
- AttributeBegin
- TransformBegin
+ # -=-=-=-=-=-=-=-=- LIGHTS -=-=-=-=-=-=-=-=-=-
+    # AttributeBegin 
+    #     TransformBegin 	    
+ 	  #       AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [8]
+ 	  #       Translate 6 -1 5
+ 	  #       Sphere 0.5 -0.5 0.5 360
+    #     TransformEnd
+    # AttributeEnd
 
- 	 AreaLightSource "PxrStdAreaLight" "theLight2" "float exposure" [9]
- 	 Translate 3 10 -8 
- 	
-      Sphere 0.5 -0.5 0.5 360
-    TransformEnd
-    AttributeEnd
+#     AttributeBegin
+#       TransformBegin
 
-      AttributeBegin
-      TransformBegin
+#   	    AreaLightSource "PxrStdAreaLight" "theLight2" "float exposure" [6]
+#  	      Translate 3 10 -8  	
+#         Sphere 0.5 -0.5 0.5 360
 
-	 AreaLightSource "PxrStdAreaLight" "theLight3" "float exposure" [8]
-	 Translate 6 0 -10
-	 Sphere 0.5 0.5 -0.5 360
-     TransformEnd
-     AttributeEnd
+#       TransformEnd
+#     AttributeEnd
+
+#      AttributeBegin
+#        TransformBegin
+
+# 	        AreaLightSource "PxrStdAreaLight" "theLight3" "float exposure" [4]
+# 	        Translate 6 0 -10
+# 	        Sphere 0.5 0.5 -0.5 360
+#         TransformEnd
+#       AttributeEnd
 
 
- TransformEnd    
+TransformEnd # END SCENE   
 # MATERIAL 
 
 # AttributeBegin # SHADER ATTRIBUTE BEGIN
@@ -84,55 +116,57 @@ WorldBegin
 
 
 
-#  MODEL ________________-----------------_____________________
+#  {[MODEL]} ________________888888888888888888_____________________
 
-
-ReadArchive "model_stopper.rib"
-
-
+#
+#
+##
+###
+#####
+######
+       ReadArchive "model_stopper.rib"
+######
+#####
+###
+##
+#
+#
 
 
 
 
 #    ========= FLOOR =============
 
-AttributeBegin
 
- Bxdf "PxrDisney" "FloorColor" "color baseColor" [ 1 1 1 ] "float metallic" [0] "float specular" [0]
-Color [1 1 1]
+  AttributeBegin # Floor material
+    Bxdf "PxrDisney" "FloorColor" "color baseColor" [ 0.5 0.5 0.5 ] "float metallic" [0.1] "float specular" [0.2]
+    TransformBegin 
 
+      Translate 0 -3.5 0
+      Scale 20 20 20
+      Patch "bilinear" "P" [
+                  
+                  1   0   -1  
+                  -1  0   -1
+                  1   0   1
+                  -1  0   1
+                  ]   
+    TransformEnd 
 
-# ENV SPHERE
- Sphere 15 15 -15 360
-  Bxdf "PxrDisney" "FloorColor" "color baseColor" [ 0.1 0.1 0.1 ] "float metallic" [0] "float specular" [0.2]
-TransformBegin 
+  # ## -- Backdrop -- ##
 
-    Translate 0 -3.5 0
-    Scale 10 10 10
-    Polygon "P" [
-                -1  0   -1
-                1   0   -1  
-                1   0   1
-                -1  0   1
-                ]   
-TransformEnd 
+  # TransformBegin
+  # Translate 0 0 8
+  # Scale 15 15 0
+  #     Polygon "P" [
+  #                 -1  -1  0 
+  #                 1   -1  0
+  #                 1   1   0
+  #                 -1  1   0
+  #     ]
 
-# ## -- Backdrop -- ##
+  # TransformEnd
 
-# TransformBegin
-# Translate 0 0 8
-# Scale 15 15 0
-#     Polygon "P" [
-#                 -1  -1  0 
-#                 1   -1  0
-#                 1   1   0
-#                 -1  1   0
-#     ]
-
-# TransformEnd
-
-AttributeEnd
+  AttributeEnd # End floor material
 
 WorldEnd
-
-

@@ -1,5 +1,5 @@
 #hyperboloid.rib
-Display "model.tiff" "framebuffer" "rgba"
+Display "model.exr" "framebuffer" "rgba"
 Projection "perspective" "fov" [45]
 
 # PixelFilter "mitchell" 4 4
@@ -17,7 +17,7 @@ PixelVariance 0.01
 
 
 #  Clipping 5 15
-Exposure 1 1.2
+ Exposure 1 2.2
     
     Translate 0 0 10
      Rotate -20 1 0 0
@@ -147,10 +147,153 @@ Color [0.1 0.1 0.1]
     TransformEnd
     # BODY MATERIAL
         
-        # Middle - top part 
+    #     # Middle - top part 
+    #     TransformBegin
+
+    #     Polygon "P" [
+    #         2.9 0 0
+    #         1.55 0 -3.2
+    #         -1.55 0 -3.2
+    #         -2.9 0 0 
+
+    #     ]
+    #     TransformEnd
+        
+    #     # Middle - central part 
+
+    #     TransformBegin
+
+    #     Polygon "P" [
+    #         1.55 -0.0001 -3.2
+    #         1.55 -7.2 -3.2
+    #         -1.55 -7.2 -3.2
+    #         -1.55 -0.0001 -3.2             
+    #     ]
+
+    #     TransformEnd
+       
+
+    #     # Inside right top triangle
+
+    #     TransformBegin
+        
+    #     Translate 2.9 0 0
+    #     Polygon "P" [
+    #         -1.35  -0.0001 -3.2
+    #         1 -7.2 -15.5
+    #         -1.35 -7.2 -3.2
+    #     ]
+
+    #     TransformEnd
+
+    #      # Inside left top triangle
+
+    #     TransformBegin
+        
+    #     Translate -2.9 0 0
+    #     Polygon "P" [
+    #         1.35  -0.0001 -3.2
+    #         -1 -7.2 -15.5
+    #         1.35 -7.2 -3.2
+    #     ]
+
+    #     TransformEnd
+
+
+    #     #  Side panel R outer 
+    #     TransformBegin
+
+    #     Translate 2.9 0 0
+    #     Polygon "P" [
+    #         0 0 0
+    #         0.65 0 -2.8
+    #         3 -7.2 -15
+    #         0.65 -7.2 -2.8
+    #         0 -7.2 0      
+    #     ]
+        
+    #     TransformEnd
+       
+    #     # Side panel R top 
+    #     TransformBegin
+    #     Translate 2.9 0 0 
+    #    Polygon "P" [
+    #         0 -0.0001 0 
+    #         0.65 -0.0001 -2.8
+    #         -1.35  -0.0001 -3.2
+    #         -1 -0.0001 0
+    #    ]
+
+    #     Polygon "P" [
+    #         # 0 -0.0001 0 
+    #         0.65 -0.0001 -2.8 
+    #         3 -7.2 -15 
+    #         1 -7.2 -15.5
+    #          -1.35  -0.0001 -3.2
+    #         # -1 -0.00001 0            
+    #     ]
+    #     TransformEnd
+
+    #     TransformBegin
+    #     # Side panel R front block 
+    #     Translate 2.9 0 0
+    #     Polygon "P" [
+
+    #          3 -7.2 -15
+    #          1 -7.2 -15.5
+    #          1 -10.8 -14
+    #          3 -10.8 -14.2
+    #     ]
+    #     TransformEnd
+
+    #     #  Side panel L outer 
+    #     TransformBegin
+
+    #     Translate -2.9 0 0
+    #     Polygon "P" [
+    #         0 0 0
+    #         -0.65 0 -2.8
+    #         -3 -7.2 -15
+    #         -0.65 -7.2 -2.8
+    #         0 -7.2 0   
+    #     ]
+        
+    #     TransformEnd
+    
+    #     # Side panel L top 
+    #     TransformBegin
+    #     Translate -2.9 0 0 
+    #    Polygon "P" [
+    #         0 -0.0001 0 
+    #         -0.65 -0.0001 -2.8
+    #         1.35  -0.0001 -3.2
+    #         1 -0.0001 0
+    #    ]
+
+    #     Polygon "P" [
+    #         # 0 -0.0001 0 
+    #         -0.65 -0.0001 -2.8 
+    #         -3 -7.2 -15 
+    #         -1 -7.2 -15.5
+    #          1.35  -0.0001 -3.2
+    #         # -1 -0.00001 0            
+    #     ]
+    #     TransformEnd
+    #      # Side panel L front block 
+    #     Translate -2.9 0 0
+    #     Polygon "P" [
+
+    #          -3 -7.2 -15
+    #          -1 -7.2 -15.5
+    #          -1 -10.8 -14
+    #          -3 -10.8 -14.2
+    #     ]
+    #     TransformEnd
+
+           # Middle - top part 
         TransformBegin
 
-        Polygon "P" [
+        Patch "bilinear" "P" [
             2.9 0 0
             1.55 0 -3.2
             -1.55 0 -3.2
@@ -163,7 +306,7 @@ Color [0.1 0.1 0.1]
 
         TransformBegin
 
-        Polygon "P" [
+        Patch "bilinear" "P" [
             1.55 -0.0001 -3.2
             1.55 -7.2 -3.2
             -1.55 -7.2 -3.2
@@ -178,7 +321,7 @@ Color [0.1 0.1 0.1]
         TransformBegin
         
         Translate 2.9 0 0
-        Polygon "P" [
+       Patch "bilinear" "P" [
             -1.35  -0.0001 -3.2
             1 -7.2 -15.5
             -1.35 -7.2 -3.2
@@ -191,7 +334,7 @@ Color [0.1 0.1 0.1]
         TransformBegin
         
         Translate -2.9 0 0
-        Polygon "P" [
+       Patch "bilinear" "P" [
             1.35  -0.0001 -3.2
             -1 -7.2 -15.5
             1.35 -7.2 -3.2
@@ -204,7 +347,7 @@ Color [0.1 0.1 0.1]
         TransformBegin
 
         Translate 2.9 0 0
-        Polygon "P" [
+        Patch "bilinear" "P" [
             0 0 0
             0.65 0 -2.8
             3 -7.2 -15
@@ -217,14 +360,14 @@ Color [0.1 0.1 0.1]
         # Side panel R top 
         TransformBegin
         Translate 2.9 0 0 
-       Polygon "P" [
+       Patch "bilinear" "P" [
             0 -0.0001 0 
             0.65 -0.0001 -2.8
             -1.35  -0.0001 -3.2
             -1 -0.0001 0
        ]
 
-        Polygon "P" [
+       Patch "bilinear" "P" [
             # 0 -0.0001 0 
             0.65 -0.0001 -2.8 
             3 -7.2 -15 
@@ -237,7 +380,7 @@ Color [0.1 0.1 0.1]
         TransformBegin
         # Side panel R front block 
         Translate 2.9 0 0
-        Polygon "P" [
+       Patch "bilinear" "P" [
 
              3 -7.2 -15
              1 -7.2 -15.5
@@ -250,7 +393,7 @@ Color [0.1 0.1 0.1]
         TransformBegin
 
         Translate -2.9 0 0
-        Polygon "P" [
+        Patch "bilinear" "P" [
             0 0 0
             -0.65 0 -2.8
             -3 -7.2 -15
@@ -263,14 +406,14 @@ Color [0.1 0.1 0.1]
         # Side panel L top 
         TransformBegin
         Translate -2.9 0 0 
-       Polygon "P" [
+       Patch "bilinear" "P" [
             0 -0.0001 0 
             -0.65 -0.0001 -2.8
             1.35  -0.0001 -3.2
             1 -0.0001 0
        ]
 
-        Polygon "P" [
+        Patch "bilinear" "P" [
             # 0 -0.0001 0 
             -0.65 -0.0001 -2.8 
             -3 -7.2 -15 
@@ -281,7 +424,7 @@ Color [0.1 0.1 0.1]
         TransformEnd
          # Side panel L front block 
         Translate -2.9 0 0
-        Polygon "P" [
+        Patch "bilinear" "P" [
 
              -3 -7.2 -15
              -1 -7.2 -15.5

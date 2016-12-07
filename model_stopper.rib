@@ -16,14 +16,17 @@ Scale 0.3 0.3 0.3
 
         
         AttributeBegin # TOP METALLIC MATERIAL
-            
-            Bxdf "PxrDisney" "BodyMaterial" "float metallic" [1] "color baseColor" [ 1 1 1 ] 
+
+        Pattern "PxrOSL" "scratchTx" "string shader" [ "scratches"]
+        Pattern "PxrOSL" "texture" "string shader" "shaders/tex" "color Cin" [1 0 0]
+        Bxdf "PxrDisney" "BodyMaterial" "float metallic" [1] "color baseColor" [ 1 1 1 ] 
         
         # DISPLACEMENT
-        Attribute "trace" "displacements" [ 2 ]
-    	Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
-    	Pattern "PxrOSL" "diskTx" "string shader" [ "scratches"]
-    	Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
+        # Attribute "trace" "displacements" [ 2 ]
+    	# Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
+    	# Pattern "PxrOSL" "diskTx" "string shader" [ "scratches"]
+    	# Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.3]
+
 
             TransformBegin
                 Rotate 90 1 0 0 
@@ -52,11 +55,10 @@ Scale 0.3 0.3 0.3
 
             # Displacement
 
-
-            Attribute "trace" "displacements" [ 2 ]
-            Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
-            Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
-            Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
+            # Attribute "trace" "displacements" [ 2 ]
+            # Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
+            # Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
+            # Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
 
             # Material
             Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.8] "color baseColor" [ 0.1 0.1 0.1] 
@@ -239,28 +241,29 @@ Scale 0.3 0.3 0.3
 
                 Polygon "P" 
                 [
-                    0.6 -8.5 -12.5
+                    0.6 -8.5 -13.5
                     # BACK
                     -2  -8.5 -0.5 # CHANGE
                     0 -8.5 0
-                    2.6 -8.5 -13
+                     2.6 -8.5 -14
                     #FRONT R           
                 ]
 
                 TransformEnd
+               
+               
                 # side panel top piece 2 
-                
-                
+                          
                 TransformBegin
                 #  Every point X -2  Y 0  Z -0.5
                 # Side Panel 2 top close
                 Translate 2.9 0 0
                 Polygon "P" [     
-                    0.8 -7.2 -12.5
-                    0.8 -7.9 -13         
+                    0.8 -7.2 -13.5
+                    0.8 -7.9 -14         
                     2.8 -7.9 -13.5
                     # endpiece
-                    2.8 -7.2 -13
+                    2.8 -7.2 -14
                     #FRONT R           
                 ]
                 TransformEnd
@@ -273,9 +276,9 @@ Scale 0.3 0.3 0.3
                 # side panel top piece 3
                 Polygon "P" 
                 [
-                    0.8 -7.9 -13
-                    0.6 -8.5 -12.5          
-                    2.6 -8.5 -13
+                    0.8 -7.9 -14
+                    0.6 -8.5 -13.5          
+                    2.6 -8.5 -14
                     2.8 -7.9 -13.5  
                 ]
                 TransformEnd
@@ -373,11 +376,11 @@ Scale 0.3 0.3 0.3
 
                 Polygon "P" 
                 [
-                    -0.6 -8.5 -12.5
+                    -0.6 -8.5 -13.5
                     # BACK
                     2  -8.5 -0.5 # CHANGE
                     -0 -8.5 0
-                    -2.6 -8.5 -13
+                    -2.6 -8.5 -14
                     #FRONT R           
                 ]
 
@@ -390,11 +393,11 @@ Scale 0.3 0.3 0.3
                 # Side Panel 2 top close
                 Translate -2.9 0 0
                 Polygon "P" [     
-                    -0.8 -7.2 -12.5
-                    -0.8 -7.9 -13         
+                    -0.8 -7.2 -13.5
+                    -0.8 -7.9 -14         
                     -2.8 -7.9 -13.5
                     # endpiece
-                    -2.8 -7.2 -13
+                    -2.8 -7.2 -14
                     #FRONT R           
                 ]
                 TransformEnd
@@ -407,9 +410,9 @@ Scale 0.3 0.3 0.3
                 # side panel top piece 3
                 Polygon "P" 
                 [
-                    -0.8 -7.9 -13
-                    -0.6 -8.5 -12.5          
-                    -2.6 -8.5 -13
+                    -0.8 -7.9 -14
+                    -0.6 -8.5 -13.5          
+                    -2.6 -8.5 -14
                     -2.8 -7.9 -13.5  
                 ]
                 TransformEnd

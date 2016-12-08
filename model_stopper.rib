@@ -61,7 +61,9 @@ Scale 0.3 0.3 0.3
             # Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
 
             # Material
-            Pattern "PxrOSL" "myShader" "string shader" "rust_noise" "color Cin" [1 1 1]
+            Pattern "PxrTexture" "rust" "string filename" "rust.tx"
+            Pattern "PxrOSL" "myShader" "string shader" "rust_noise" "refernce color Cin"["rust:resultRGB"]
+          
             
             Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.8] 
             "reference color baseColor" ["myShader:Cout"] 

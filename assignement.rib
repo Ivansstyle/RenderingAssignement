@@ -61,7 +61,7 @@ TransformBegin # SCENE
 	  AttributeEnd # END LIGHT
  
 
- # -=-=-=-=-=-=-=-=- LIGHTS -=-=-=-=-=-=-=-=-=-
+ # -=-=-=-=-=-=-=-=-   LIGHTS   -=-=-=-=-=-=-=-=-=-
     # AttributeBegin 
     #     TransformBegin 	    
  	  #       AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [8]

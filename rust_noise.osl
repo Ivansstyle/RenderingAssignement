@@ -6,7 +6,7 @@ output	color Cout=0
     float uMult = 5.0;
     float vMult = 5.0;
     color noise_color=abs(0.5*noise("simplex",u*uMult,v*vMult)); 
-    //noise_color*=(float)noise("uperlin",u*5,v*5)
-    Cout=noise_color;
+    // noise_color*=(float)noise("uperlin",u*5,v*5)
+    Cout=Cin;
 }
 

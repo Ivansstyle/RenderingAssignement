@@ -1,0 +1,22 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface noise
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{3,3} %write{3,3}
+global	float	u	%read{0,0} %write{2147483647,-1}
+global	float	v	%read{1,1} %write{2147483647,-1}
+local	float	noise_color	%read{3,3} %write{2,2}
+const	string	$const1	"cell"		%read{2,2} %write{2147483647,-1}
+temp	float	$tmp1	%read{2,2} %write{0,0}
+const	float	$const3	10		%read{0,1} %write{2147483647,-1}
+temp	float	$tmp2	%read{2,2} %write{1,1}
+code ___main___
+# rust_noise.osl:7
+#     float noise_color=(float)noise("cell",u*10,v*10); 
+	mul		$tmp1 u $const3 	%filename{"rust_noise.osl"} %line{7} %argrw{"wrr"}
+	mul		$tmp2 v $const3 	%argrw{"wrr"}
+	noise		noise_color $const1 $tmp1 $tmp2 	%argrw{"wrrr"}
+# rust_noise.osl:8
+#     Cout+=noise_color;
+	add		Cout Cout noise_color 	%line{8} %argrw{"wrr"}
+	end

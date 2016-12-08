@@ -1,0 +1,10 @@
+surface noise (
+	color Cin=1,
+output	color Cout=0
+)
+{
+
+    float noise_color=(float)noise("cell",u*10,v*10); 
+    Cout+=noise_color;
+}
+

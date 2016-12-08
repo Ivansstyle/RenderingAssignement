@@ -61,7 +61,10 @@ Scale 0.3 0.3 0.3
             # Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
 
             # Material
-            Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.8] "color baseColor" [ 0.1 0.1 0.1] 
+            Pattern "PxrOSL" "myShader" "string shader" "rust_noise" "color Cin" [1 1 1]
+            
+            Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.8] 
+            "reference color baseColor" ["myShader:Cout"] 
             "float roughness"      [0.3] 
             "float anisotropic"    [0.1]
         

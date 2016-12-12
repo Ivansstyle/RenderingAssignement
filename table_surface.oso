@@ -2,25 +2,49 @@ OpenShadingLanguage 1.00
 # Compiled by oslc 1.6.2dev
 surface table_surface
 param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
-oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{3,3}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{13,13}
 global	float	u	%read{1,1} %write{2147483647,-1} %derivs
-global	float	v	%read{2,2} %write{2147483647,-1} %derivs
-local	float	repeat_count	%read{1,2} %write{0,0} %derivs
-local	float	s	%read{3,3} %write{1,1} %derivs
-local	float	t	%read{3,3} %write{2,2} %derivs
-const	float	$const1	1		%read{0,0} %write{2147483647,-1}
-const	string	$const2	"floor.tx"		%read{3,3} %write{2147483647,-1}
+global	float	v	%read{7,7} %write{2147483647,-1} %derivs
+local	float	repeatCount	%read{1,7} %write{0,0} %derivs
+local	float	s	%read{13,13} %write{6,6} %derivs
+local	float	t	%read{13,13} %write{12,12} %derivs
+const	float	$const1	4		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{3,6} %write{1,1} %derivs
+const	float	$const3	1		%read{3,11} %write{2147483647,-1}
+const	string	$const4	"mod"		%read{2,8} %write{2147483647,-1}
+temp	float	$tmp2	%read{5,5} %write{4,4} %derivs
+temp	float	$tmp3	%read{4,4} %write{3,3} %derivs
+temp	float	$tmp4	%read{6,6} %write{5,5} %derivs
+temp	float	$tmp5	%read{9,12} %write{7,7} %derivs
+temp	float	$tmp6	%read{11,11} %write{10,10} %derivs
+temp	float	$tmp7	%read{10,10} %write{9,9} %derivs
+temp	float	$tmp8	%read{12,12} %write{11,11} %derivs
+const	string	$const5	"floor.tx"		%read{13,13} %write{2147483647,-1}
 code ___main___
 # table_surface.osl:5
-#     float repeat_count = 1.0;
-	assign		repeat_count $const1 	%filename{"table_surface.osl"} %line{5} %argrw{"wr"}
+#     float repeatCount = 4.0;
+	assign		repeatCount $const1 	%filename{"table_surface.osl"} %line{5} %argrw{"wr"}
 # table_surface.osl:6
-#     float s=u * repeat_count;
-	mul		s u repeat_count 	%line{6} %argrw{"wrr"}
+#     float s=mod(repeatCount*u,1);
+	mul		$tmp1 repeatCount u 	%line{6} %argrw{"wrr"}
+	functioncall	$const4 7 	%argrw{"r"}
+# /opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h:135
+# normal mod (normal a, normal b) { return a - b*floor(a/b); }
+	div		$tmp3 $tmp1 $const3 	%filename{"/opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp2 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const3 $tmp2 	%argrw{"wrr"}
+	sub		s $tmp1 $tmp4 	%argrw{"wrr"}
 # table_surface.osl:7
-#     float t=v * repeat_count;
-	mul		t v repeat_count 	%line{7} %argrw{"wrr"}
+#     float t=mod(repeatCount*v,1);
+	mul		$tmp5 repeatCount v 	%filename{"table_surface.osl"} %line{7} %argrw{"wrr"}
+	functioncall	$const4 13 	%argrw{"r"}
+# /opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h:135
+# vector mod (vector a, vector b) { return a - b*floor(a/b); }
+	div		$tmp7 $tmp5 $const3 	%filename{"/opt/pixar/RenderManProServer-20.10/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp6 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const3 $tmp6 	%argrw{"wrr"}
+	sub		t $tmp5 $tmp8 	%argrw{"wrr"}
 # table_surface.osl:8
 #     Cout=(color)texture("floor.tx", s, t);   
-	texture		Cout $const2 s t 	%line{8} %argrw{"wrrr"} %argderivs{2,3}
+	texture		Cout $const5 s t 	%filename{"table_surface.osl"} %line{8} %argrw{"wrrr"} %argderivs{2,3}
 	end

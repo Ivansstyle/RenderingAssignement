@@ -40,7 +40,7 @@ PixelVariance 0.01
 # General view
      Translate 0 1.5 10 
      Rotate -10 1 0 0
-     Rotate 10 0 1 0  
+     Rotate -180 0 1 0  
 # Top piece view
     #  Translate 0 -1 2 
     #  Rotate -10 1 0 0

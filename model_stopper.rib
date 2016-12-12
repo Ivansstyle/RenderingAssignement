@@ -17,11 +17,9 @@ Scale 0.3 0.3 0.3
         AttributeBegin # TOP METALLIC MATERIAL
 
         Pattern "PxrOSL" "scratchTx" "string shader" [ "scratches"]
-        # Pattern "PxrOSL" "texture" "string shader" "shaders/tex" "color Cin" [1 0 0]
         Bxdf "PxrDisney" "BodyMaterial" 
         "float metallic" [1]
         "reference float roughness" ["scratchTx:roughness"]
-        # "reference float metallic" ["scratchTx:metallic"] 
         "color baseColor" [ 1 1 1 ] 
         
         # DISPLACEMENT
@@ -55,22 +53,34 @@ Scale 0.3 0.3 0.3
 
             # Displacement
 
-            Attribute "trace" "displacements" [1]
-            Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["world"]
-            Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
-            Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
+            # Attribute "trace" "displacements" [1]
+            # Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["world"]
+            # Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
+            # Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
 
             # Material
-            Pattern "PxrTexture" "rust" "string filename" "rust.tx"
-            Pattern "PxrOSL" "rustShade" "string shader" "rust_surface" "color Cin" [0.05 0.05 0.05]
+            Pattern "PxrOSL" "rustShade" "string shader" "rust_surface" 
+            "color Cin" [0.05 0.05 0.05]
+            "float noise_level" [0.03]
+            "float noise_fuzz" [0.35]
 
-          
-            
-            Bxdf "PxrDisney" "BodyMaterial" "float metallic" [0.7] 
+
+            Pattern "PxrOSL" "rustRoughness" "string shader" "rust_roughness"
+            "float Rin" [0.04]
+            "float roughnessMultiplier" [10]
+            "float noise_level" [0.4]
+            "float blend_val" [10]
+
+            Bxdf "PxrDisney" "BodyMaterial" 
+            "float metallic" [0] 
+            "float subsurface" [0.33]
+         
+
             "reference color baseColor" ["rustShade:Cout"] 
-            "float roughness"      [0.1] 
-            "float anisotropic"    [0.1]
-        
+            # "float roughness" [0]
+            "reference float roughness" ["rustRoughness:Rout"] 
+            # "float anisotropic"    [0.1]
+            "float clearcoat" [1]
                     
         
             TransformBegin # ROTATE

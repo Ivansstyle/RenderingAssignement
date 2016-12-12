@@ -1,0 +1,20 @@
+surface rust_surface ( color Cin = 1, 
+output	color Cout=0 
+)
+{
+    float noise_level = 0.05;    
+    float noise_fuzz = 0.4;
+    float blend_val = 1.0;
+
+
+    float s=u+(float)noise("uperlin",P*2)*0.5;
+    float t=v+(float)noise("uperlin",P*2+point(100,100,100))*0.5;
+    color rust=color(0.149019608, 0.094117647, 0.090196078);
+    color noisy_rust = rust - (float)noise("simplex",(u+10)*40, (v-3)*30)*noise_level; 
+    
+    float n=(float)noise("uperlin",s*3,t*0.5);
+    n=smoothstep(0.0 + noise_fuzz,0.15 + noise_fuzz,n);
+    Cout=mix(noisy_rust * blend_val,Cin,n);
+    
+    
+}

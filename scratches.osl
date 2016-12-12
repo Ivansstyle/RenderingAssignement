@@ -1,16 +1,23 @@
 shader scratches (
-output	float resultF=0
+//float roughnessIn = 1;
+output	float roughness=1
 )
 {
-    float fuzz=0.05;
-    float repeatCount=1;
-    float s=mod(repeatCount*u,1);
-    float t=mod(repeatCount*v,1);
-    point centre=point (0.5,0.5,0);
-    point here=point (s,t,0);
-    float dist=distance(centre,here);
-    float radius=(float)noise("cell",repeatCount*u,repeatCount*v)*0.4;
-    float inDisk=0.5-smoothstep(radius-fuzz/2,radius/2+fuzz,dist);
-    resultF=inDisk;
+    float noiseControl = 0.2;
+    float gain = 0.3;
+
+    float scratch = (float)noise("uperlin",u*30,v*300);
+    scratch = smoothstep(0.0 + noiseControl, 0.30 + noiseControl, scratch);
+    float intermid_roughness= scratch * gain;
+
+    scratch = abs((float)noise("gabor",u*1,v*1));
+    scratch = smoothstep(0.3 + noiseControl, 0.7 + noiseControl, scratch);
+    
+    float s=u+(float)noise("uperlin",P*2)*0.5;
+    float t=v+(float)noise("uperlin",P*2+point(30,230,331))*0.5;
+    
+    float mix_noise = (float)noise("uperlin",s*30,t*10);
+    mix_noise =  smoothstep(0.3, 0.4, scratch);
+    roughness = mix(intermid_roughness, scratch, mix_noise);
 }
 

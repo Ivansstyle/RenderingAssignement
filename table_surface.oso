@@ -1,0 +1,26 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface table_surface
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{3,3}
+global	float	u	%read{1,1} %write{2147483647,-1} %derivs
+global	float	v	%read{2,2} %write{2147483647,-1} %derivs
+local	float	repeat_count	%read{1,2} %write{0,0} %derivs
+local	float	s	%read{3,3} %write{1,1} %derivs
+local	float	t	%read{3,3} %write{2,2} %derivs
+const	float	$const1	1		%read{0,0} %write{2147483647,-1}
+const	string	$const2	"floor.tx"		%read{3,3} %write{2147483647,-1}
+code ___main___
+# table_surface.osl:5
+#     float repeat_count = 1.0;
+	assign		repeat_count $const1 	%filename{"table_surface.osl"} %line{5} %argrw{"wr"}
+# table_surface.osl:6
+#     float s=u * repeat_count;
+	mul		s u repeat_count 	%line{6} %argrw{"wrr"}
+# table_surface.osl:7
+#     float t=v * repeat_count;
+	mul		t v repeat_count 	%line{7} %argrw{"wrr"}
+# table_surface.osl:8
+#     Cout=(color)texture("floor.tx", s, t);   
+	texture		Cout $const2 s t 	%line{8} %argrw{"wrrr"} %argderivs{2,3}
+	end

@@ -3,11 +3,12 @@ Display "assignement.exr" "framebuffer" "rgba"
 Projection "perspective" "fov" [45]
 
 # ------------ CAMERA -----------------
-# PixelFilter "mitchell" 4 4
+PixelFilter "mitchell" 4 4
 Format 1280 720 1.0
 Quantize "rgba" 255 0 255 0
-Exposure 1 2.2
-# DepthOfField 12.0 0.8 8
+Exposure 1 1.8
+# DepthOfField 4.8 2 5
+
 
 # ------------ RENDERER ---------------
 Hider "raytrace" "int incremental" [1] "int maxsamples" [512]
@@ -40,54 +41,65 @@ PixelVariance 0.01
      Translate 0 1.5 10 
      Rotate -10 1 0 0
      Rotate 10 0 1 0  
-
+# Top piece view
+    #  Translate 0 -1 2 
+    #  Rotate -10 1 0 0
+    #  Rotate 10 0 1 0  
 
 WorldBegin
 
 # LIGHTS 
 TransformBegin # SCENE
- 
+ TransformBegin # ENVSPHERE
     AttributeBegin # ENV LIGHT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
       Rotate 90 1 0 0 
+     
 		  Pattern "PxrTexture" "envTexture" "string filename" "envmap.tx"
 		  AreaLightSource "PxrStdAreaLight" "envLight" "float exposure" [0.8]
 				"float enableEmissionMap" [1]
 				"string rman__EmissionMap" ["envmap.tx"]
 				"float linearizeEmissionMap" [1]
 		
-	
+	  
 		  Bxdf "PxrDisney" "fortheEnvSphere" "reference color baseColor" ["envTexture:resultRGB"]
 		  Geometry "envsphere" "constant float radius" [100]
 	  AttributeEnd # END LIGHT
- 
+ TransformEnd # END ENVSPHERE
 
  # -=-=-=-=-=-=-=-=-   LIGHTS   -=-=-=-=-=-=-=-=-=-
-    # AttributeBegin 
-    #     TransformBegin 	    
- 	  #       AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [8]
- 	  #       Translate 6 -1 5
- 	  #       Sphere 0.5 -0.5 0.5 360
-    #     TransformEnd
-    # AttributeEnd
+    AttributeBegin 
+        TransformBegin 	    
+ 	        AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [5]
+ 	        Translate 2 10 -1
+           Scale 5 5 5
+ 	              Patch "bilinear" "P" [
+                  
+                  1   0   -1  
+                  -1  0   -1
+                  1   0   1
+                  -1  0   1
+                  ]   
+        TransformEnd
+    AttributeEnd
 
-#     AttributeBegin
-#       TransformBegin
+    AttributeBegin
+      TransformBegin
 
-#   	    AreaLightSource "PxrStdAreaLight" "theLight2" "float exposure" [6]
-#  	      Translate 3 10 -8  	
-#         Sphere 0.5 -0.5 0.5 360
+  	    AreaLightSource "PxrStdAreaLight" "theLight2" "float exposure" [6]
+ 	      Translate -3 5 -4  	
+        Sphere 1 -1 1 360
 
-#       TransformEnd
-#     AttributeEnd
+      TransformEnd
+    AttributeEnd
 
-#      AttributeBegin
-#        TransformBegin
+     AttributeBegin
+       TransformBegin
 
-# 	        AreaLightSource "PxrStdAreaLight" "theLight3" "float exposure" [4]
-# 	        Translate 6 0 -10
-# 	        Sphere 0.5 0.5 -0.5 360
-#         TransformEnd
-#       AttributeEnd
+	        AreaLightSource "PxrStdAreaLight" "theLight3" "float exposure" [4]
+	        Translate 6 2.5 -10
+	        Sphere 0.5 0.5 -0.5 360
+        TransformEnd
+      AttributeEnd
 
 
 TransformEnd # END SCENE   
@@ -139,10 +151,21 @@ TransformEnd # END SCENE
 
 
   AttributeBegin # Floor material
-    Bxdf "PxrDisney" "FloorColor" "color baseColor" [ 0.5 0.5 0.5 ] "float metallic" [0.1] "float specular" [0.2]
+    Pattern "PxrTexture" "table" "string filename" "floor.tx"
+    
+    # Pattern "PxrBump" "floor_bump" "string filename" "floor_bump.tx"
+
+    # Patterm "PxrNormalMap" "floor_normal" "string filename" "floor_normal.tx"
+    
+    Pattern "PxrOSL" "table_color" "string shader" "table_surface"
+    
+    Bxdf "PxrDisney" "TableColor" 
+    "reference color baseColor" ["table_color:Cout"] 
+    "float metallic" [0.1] 
+    "float specular" [0.2]
     TransformBegin 
 
-      Translate 0 -3.5 0
+      Translate 0 -3 10
       Scale 20 20 20
       Patch "bilinear" "P" [
                   

@@ -1,0 +1,9 @@
+surface table_surface ( color Cin = 1, 
+output	color Cout=0 
+)
+{
+    float repeatCount = 4.0;
+    float s=mod(repeatCount*u,1);
+    float t=mod(repeatCount*v,1);
+    Cout=(color)texture("floor.tx", s, t);   
+}

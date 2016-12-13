@@ -14,25 +14,21 @@ Exposure 1 2.2
 Hider "raytrace" "int incremental" [1] "int maxsamples" [512]
 PixelVariance 0.01
 
+
 # ----------- INTEGRATORS -------------  
   # Filter "gaussian" 4 4 
   #  Integrator "PxrDefault" "integrator"
   Integrator "PxrVCM" "integrator"
   Integrator "PxrPathTracer" "integrator"
-
-
-#  Clipping 5 15
- 
     
 # ----------- CAMERA POS --------------
 
-  # #  # Detailed view
+# Detailed view
     # Translate -1 5 4
     #  Rotate -45 1 0 0
     #  Rotate -10 0 1 0  
 
 # Detailed VIEW 2
-
     #  Translate 2 3 4 
     #  Rotate -15 1 0 0
     #  Rotate  180 0 1 0  
@@ -41,12 +37,13 @@ PixelVariance 0.01
      Translate 0 1.5 10 
      Rotate -10 1 0 0
      Rotate -0 0 1 0  
+
 # Top piece view
     #  Translate 0 -1 2 
     #  Rotate -10 1 0 0
     #  Rotate 10 0 1 0  
 
-WorldBegin
+WorldBegin # -------------------------------------------------------------------------
 
 # LIGHTS 
 TransformBegin # SCENE
@@ -54,13 +51,14 @@ TransformBegin # SCENE
     AttributeBegin # ENV LIGHT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
       Rotate 90 1 0 0 
      
+     # Env Light (map)
 		  Pattern "PxrTexture" "envTexture" "string filename" "envmap.tx"
 		  AreaLightSource "PxrStdAreaLight" "envLight" "float exposure" [1]
 				"float enableEmissionMap" [1]
 				"string rman__EmissionMap" ["envmap.tx"]
 				"float linearizeEmissionMap" [1]
 		
-	  
+	    # Env texture
 		  Bxdf "PxrDisney" "fortheEnvSphere" "reference color baseColor" ["envTexture:resultRGB"]
 		  Geometry "envsphere" "constant float radius" [100]
 	  AttributeEnd # END LIGHT
@@ -103,71 +101,57 @@ TransformBegin # SCENE
 
 
 TransformEnd # END SCENE   
-# MATERIAL 
-
-# AttributeBegin # SHADER ATTRIBUTE BEGIN
-
-# 	Attribute "trace" "displacements" [ 2 ]
-# 	Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["shader"]
-# 	Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
-# 	Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
-
-# 	Bxdf "PxrGlass" "BodyMaterial" "color reflectionColor" [ 0.9 0.5 0.6 ] 
-#     # "float ior"                 [1.2] 
-#     "float roughness"           [0.8] 
-#     "float reflectionGain"      [1.9] 
-#     "color transmissionColor"   [1.2 1.112 1.1] 
 
 
-	# Bxdf "PxrDisney" "BodyMaterial" "color baseColor" [ 0.9 0.5 0.6 ] 
-    # "float ior"                 [1.2] 
-    # "float roughness"           [0] 
-    # "float reflectionGain"      [1.9] 
-    # "color transmissionColor"   [1.2 1.112 1.1] 
+##  -----------------{[MODEL]}------------------  ## 
 
 
-
-
-#  {[MODEL]} ________________888888888888888888_____________________
-
-#
 #
 ##
-###
-#####
-######
-        # ReadArchive "model_stopper.rib"
-######
-#####
-###
+#-#
+##-#
+###-#
+####-#
+#####-#
+       ReadArchive "model_stopper.rib"
+#####-#
+####-#
+###-#
+##-#
+#-#
 ##
 #
-#
 
-  ##### shader test sphere ###########
-   ReadArchive "shader_test.rib"
 
+  ##### shader tests ###########
+  #-----------------------------------
+  #  ReadArchive "shader_test.rib"
+
+  #-----------------------------------
 
 #    ========= FLOOR =============
 
 
   AttributeBegin # Floor material
+    
+    # Table texture
     Pattern "PxrTexture" "table" "string filename" "floor.tx"
-    
     # Pattern "PxrBump" "floor_bump" "string filename" "floor_bump.tx"
-
     # Patterm "PxrNormalMap" "floor_normal" "string filename" "floor_normal.tx"
-    
+
+    # Table texture mapping
     Pattern "PxrOSL" "table_color" "string shader" "table_surface"
     
+    # Table BXDF
     Bxdf "PxrDisney" "TableColor" 
     "reference color baseColor" ["table_color:Cout"] 
     "float metallic" [0.1] 
     "float specular" [0.2]
+    
     TransformBegin 
-
       Translate 0 -3 10
       Scale 20 20 20
+
       Patch "bilinear" "P" [
                   
                   1   0   -1  
@@ -177,7 +161,6 @@ TransformEnd # END SCENE
                   ]   
     TransformEnd 
 
-
   AttributeEnd # End floor material
 
-WorldEnd
+WorldEnd # -------------------------------------------------------------------------

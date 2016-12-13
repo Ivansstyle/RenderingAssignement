@@ -1,9 +1,9 @@
 TransformBegin # SCALE
-# Translate 0 1 0
+
 Scale 0.3 0.3 0.3
 
-    TransformBegin # MODEL ALLIGNEMENT
-    # REF: OUTER CYL R = 2.9 H = 7.2 SWEEP = 140
+    TransformBegin # MODEL ALIGNEMENT
+    # <!!!!!!!!!!!!!!> REF: OUTER CYL R = 2.9 H = 7.2 SWEEP = 140
  
     #  DISPLACEMENT EXAMPLE 
     	# Attribute "trace" "displacements" [ 2 ]
@@ -12,19 +12,14 @@ Scale 0.3 0.3 0.3
     	# Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
 
 
-
-        
         AttributeBegin # TOP METALLIC MATERIAL
 
-        Pattern "PxrOSL" "scratchTx" "string shader" [ "scratches"]
-        Bxdf "PxrDisney" "BodyMaterial" 
-        "float metallic" [1]
-        "reference float roughness" ["scratchTx:roughness"]
-        "color baseColor" [ 0.8 0.8 0.8 ] 
+            Pattern "PxrOSL" "scratchTx" "string shader" [ "scratches"]
+            Bxdf "PxrDisney" "BodyMaterial" 
+            "float metallic" [1]
+            "reference float roughness" ["scratchTx:roughness"]
+            "color baseColor" [ 0.8 0.8 0.8 ] 
         
-        # DISPLACEMENT
-        
-
 
             TransformBegin
                 Rotate 90 1 0 0 
@@ -51,31 +46,24 @@ Scale 0.3 0.3 0.3
 
         AttributeBegin # BODY MATERIAL
 
-            # Displacement
-
-            # Attribute "trace" "displacements" [1]
-            # Attribute "displacementbound" "sphere" [30] "coordinatesystem" ["world"]
-            # Pattern "PxrOSL" "diskTx" "string shader" [ "randomDisk"]
-            # Displacement "doDisplace" "reference float disp" [ "diskTx:resultF" ] "float atten" [0.05]
-
-            # Material
+            
+            # Rust color shader
             Pattern "PxrOSL" "rustShade" "string shader" "rust_surface" 
             "color Cin" [0.05 0.05 0.05]
             "float noise_level" [0.03]
             "float noise_fuzz" [0.35]
 
-
+            # Rust roughness shader
             Pattern "PxrOSL" "rustRoughness" "string shader" "rust_roughness"
             "float Rin" [0.04]
             "float roughnessMultiplier" [5]
             "float noise_level" [0.4]
             "float blend_val" [5]
 
+            # Body material 
             Bxdf "PxrDisney" "BodyMaterial" 
             "float metallic" [0] 
             "float subsurface" [0.33]
-         
-
             "reference color baseColor" ["rustShade:Cout"] 
             # "float roughness" [0]
             "reference float roughness" ["rustRoughness:Rout"] 
@@ -434,8 +422,6 @@ Scale 0.3 0.3 0.3
                 TransformEnd
 
         TransformEnd # END BODY
-
-
 
     AttributeEnd
     TransformEnd # END MODEL ALIGNEMENT

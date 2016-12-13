@@ -1,0 +1,69 @@
+
+    AttributeBegin 
+        TransformBegin 	    
+ 	        AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [7]
+ 	        Translate 0 6 -2
+          Rotate 15 1 0 0
+           Scale 5 5 5
+ 	              Patch "bilinear" "P" [
+                  
+                  1   0   -1  
+                  -1  0   -1
+                  1   0   1
+                  -1  0   1
+                  ]   
+        TransformEnd
+    AttributeEnd
+
+
+
+TransformBegin # MODEL BOTTOM TEST 
+AttributeBegin 
+  Scale 0.2 0.2 0.2 
+  Pattern "PxrOSL" "rustShade" "string shader" "rust_surface" 
+            "color Cin" [0.1 0.1 0.1]
+            "float noise_level" [0.03]
+            "float noise_fuzz" [0.35]
+
+
+            Pattern "PxrOSL" "rustRoughness" "string shader" "rust_roughness"
+            "float Rin" [0.04]
+            "float roughnessMultiplier" [5]
+            "float noise_level" [0.4]
+            "float blend_val" [1.2]
+
+            Bxdf "PxrDisney" "BodyMaterial" 
+            "float metallic" [0.7] 
+            "float subsurface" [0.33]
+            "reference color baseColor" ["rustShade:Cout"] 
+            "reference float roughness" ["rustRoughness:Rout"] 
+            # "float anisotropic"    [0.1]
+            "float clearcoat" [0.3]
+  Translate -10 -8 0 
+  Scale 10 10 10
+  Rotate 90 1 0 0 
+  Sphere 1 -1 1 360
+
+  AttributeEnd
+  TransformEnd
+
+
+
+
+TransformBegin    # MODEL TOP TEST
+AttributeBegin
+  Scale 0.2 0.2 0.2 
+
+        Pattern "PxrOSL" "scratchTx" "string shader" [ "scratches"]
+        Bxdf "PxrDisney" "BodyMaterial" 
+        "float metallic" [1]
+        "reference float roughness" ["scratchTx:roughness"]
+        "color baseColor" [ 0.8 0.8 0.8 ] 
+
+  Translate 10 -8 0 
+  Scale 10 10 10
+  Rotate 90 1 0 0 
+  Sphere 1 -1 1 360
+
+  AttributeEnd
+  TransformEnd

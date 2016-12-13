@@ -1,12 +1,12 @@
 #assignement.rib
-Display "assignement.exr" "framebuffer" "rgba"
+Display "shadertest.tiff" "framebuffer" "rgba"
 Projection "perspective" "fov" [45]
 
 # ------------ CAMERA -----------------
 PixelFilter "mitchell" 4 4
 Format 1280 720 1.0
 Quantize "rgba" 255 0 255 0
-Exposure 1 1.8
+Exposure 1 2.2
 # DepthOfField 4.8 2 5
 
 
@@ -40,7 +40,7 @@ PixelVariance 0.01
 # General view
      Translate 0 1.5 10 
      Rotate -10 1 0 0
-     Rotate -180 0 1 0  
+     Rotate -0 0 1 0  
 # Top piece view
     #  Translate 0 -1 2 
     #  Rotate -10 1 0 0
@@ -55,7 +55,7 @@ TransformBegin # SCENE
       Rotate 90 1 0 0 
      
 		  Pattern "PxrTexture" "envTexture" "string filename" "envmap.tx"
-		  AreaLightSource "PxrStdAreaLight" "envLight" "float exposure" [0.8]
+		  AreaLightSource "PxrStdAreaLight" "envLight" "float exposure" [1]
 				"float enableEmissionMap" [1]
 				"string rman__EmissionMap" ["envmap.tx"]
 				"float linearizeEmissionMap" [1]
@@ -136,7 +136,7 @@ TransformEnd # END SCENE
 ###
 #####
 ######
-       ReadArchive "model_stopper.rib"
+        # ReadArchive "model_stopper.rib"
 ######
 #####
 ###
@@ -144,7 +144,8 @@ TransformEnd # END SCENE
 #
 #
 
-
+  ##### shader test sphere ###########
+   ReadArchive "shader_test.rib"
 
 
 #    ========= FLOOR =============
@@ -176,19 +177,6 @@ TransformEnd # END SCENE
                   ]   
     TransformEnd 
 
-  # ## -- Backdrop -- ##
-
-  # TransformBegin
-  # Translate 0 0 8
-  # Scale 15 15 0
-  #     Polygon "P" [
-  #                 -1  -1  0 
-  #                 1   -1  0
-  #                 1   1   0
-  #                 -1  1   0
-  #     ]
-
-  # TransformEnd
 
   AttributeEnd # End floor material
 

@@ -20,7 +20,7 @@ Scale 0.3 0.3 0.3
         Bxdf "PxrDisney" "BodyMaterial" 
         "float metallic" [1]
         "reference float roughness" ["scratchTx:roughness"]
-        "color baseColor" [ 1 1 1 ] 
+        "color baseColor" [ 0.8 0.8 0.8 ] 
         
         # DISPLACEMENT
         
@@ -67,9 +67,9 @@ Scale 0.3 0.3 0.3
 
             Pattern "PxrOSL" "rustRoughness" "string shader" "rust_roughness"
             "float Rin" [0.04]
-            "float roughnessMultiplier" [10]
+            "float roughnessMultiplier" [5]
             "float noise_level" [0.4]
-            "float blend_val" [10]
+            "float blend_val" [5]
 
             Bxdf "PxrDisney" "BodyMaterial" 
             "float metallic" [0] 
